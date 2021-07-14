@@ -1,0 +1,51 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>verification</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-no-padding">
+
+
+    <ion-card no-margin>
+      <ion-card-content>
+        <ion-row class="row">
+          <div class="fire-logo">
+          <!--<img src="../../assets/logo.png" class="img-logo">-->
+            <ion-text class="ion-padding">
+              <h1 style="color: orange;" class="ion-no-margin ion-margin-vertical ">What your number?</h1>
+              <h4 >We will send you a pin to verify your number</h4>
+            </ion-text>
+          </div>
+
+        </ion-row>
+        <ion-grid >
+          <ion-row>
+
+            <ion-col size="4">
+              <ion-select placeholder="country code" class="phoneCountry" value="brown" okText="Okay" cancelText="Dismiss"
+                (ionChange)="countryCodeChange($event)" [value]="CountryCode">
+                <ion-select-option *ngFor="let country of CountryJson" value={{country.dial_code}}>
+                  {{country.dial_code + ' ' + country.name}}</ion-select-option>
+              </ion-select>
+            </ion-col>
+
+            <ion-col size="8">
+              <ion-input clearInput type="test" placeholder="Your Contact Number" [(ngModel)]="PhoneNumber"
+                class="input ion-padding-horizontal" clear-input="true">
+              </ion-input>
+            </ion-col>
+            <a style="color: orange; margin-left: 8px; margin-top: 8px; font-size: 12px;" href="driver-register">Or register with E-mail</a>
+          </ion-row>
+          <ion-row>
+            <ion-col>
+              <ion-button  style="margin-top: 60px; --background: orange; margin-left: 218px;"  (click)="signinWithPhoneNumber($event)"
+              >
+                Next</ion-button>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+        <div id="sign-in-button"></div>
+
+      </ion-card-content>
+    </ion-card>

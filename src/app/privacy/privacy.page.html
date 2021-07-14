@@ -1,0 +1,36 @@
+<div style="margin-top: 90px;">
+
+   <h1 style="color: orange; text-align: center;">Verify Email</h1>
+
+
+
+
+      <h3 style="margin-left: 30px;">A verification email will be sent to <a>{{ email }}</a>.</h3>
+
+      <div *ngIf="firebaseErrorMessage != ''" class="error-style">
+          <span>{{ firebaseErrorMessage }}</span>
+      </div>
+
+      <ion-button style="--background: orange; width: 100%;"  mat-raised-button  [disabled]="mailSent" (click)="resendVerificationEmail()">Resend verification email</ion-button><br><br>
+      <div *ngIf="mailSent">
+          <p>An email has been sent!</p>
+          <ion-button style="--background: orange; width: 100%;" mat-raised-button  [routerLink]="'/distance'">
+              <mat-icon>home</mat-icon>
+              <span>Return Home</span>
+          </ion-button>
+      </div>
+
+      <ion-button mat-raised-button style="--background: orange; width: 100%;" [routerLink]="'/register'" >
+        <span>Register</span>
+      </ion-button>
+      <br><br><br>
+
+      <mat-card style="background-color: red;" *ngIf="!(afAuth.user | async)">
+        <mat-icon>do_not_disturb</mat-icon>
+        <span>User is not logged in -- the user needs to be logged in to resend the verification email</span>
+    </mat-card>
+  <div  class="progressIndicator" [style.display]="isProgressVisible ? 'inline' : 'none' ">
+      <mat-progress-bar class=" example-margin" color="primary" mode="query"></mat-progress-bar>
+  </div>
+</div>
+

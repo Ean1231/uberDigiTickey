@@ -1,0 +1,123 @@
+<!--<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button color="dark" defaultHref="'/folder'"></ion-back-button>
+    </ion-buttons>
+
+    <ion-title>set route</ion-title>
+  </ion-toolbar>
+</ion-header>-->
+
+  <!--
+   <div #map id="map" style="height: 50%; border-bottom: 1px solid gray"></div>
+<br>
+<form>
+  <div class="form-group text-center">
+    <small id="emailHelp" class="form-text text-muted">Set your riding route below</small><br>
+</div>
+<br>
+
+   <div class="form-group " style="margin-left: 10px;">
+    <label for="exampleInputEmail1">Enter departure address</label>
+    <input #search style="width: 95%;" type="search" class="form-control" id="depart" aria-describedby="depart" placeholder="Depart From?">
+  </div><br>
+  <div style="margin-left: 10px;" class="form-group">
+    <label for="exampleInputPassword1">Enter arrival address</label>
+    <input style="width: 95%;" type="search" class="form-control" id="arrive" placeholder="Arrive To">
+  </div>
+  </form>
+ -->
+
+  <div class="container" style="margin-top: 30px;">
+  <!--<h1>Search destination</h1>-->
+
+
+     <!--
+  <agm-map
+        style="height: 300px"
+        [latitude]="latitude"
+        [longitude]="longitude"
+        [zoom]="zoom"
+      >
+      <agm-marker [latitude]="latitude" [longitude]="longitude"></agm-marker>
+    <agm-direction
+
+          *ngIf="dir"
+          [origin]="dir.origin"
+          [destination]="dir.destination"
+        ></agm-direction>
+      </agm-map>
+    -->
+
+
+
+     <!-- <label>Pickup Address:</label> (Your current location will appear still working on this)-->
+     <div style="display: flex;">
+      <ion-icon name="ellipse" style="height: 20px; width: 20px; margin-right: 5px; margin-top: 10px; color: orange;"></ion-icon>      <input
+        type="text"
+        class="form-control"
+        (keydown.enter)="$event.preventDefault()"
+        placeholder="Your Pickup"
+        autocorrect="off"
+        autocapitalize="off"
+        spellcheck="off"
+        type="text"
+        #search
+
+        [(ngModel)] = "address"
+
+      />
+    </div>
+      <br />
+    <!--<label>Drop off Address:</label>-->
+    <div style="display: flex;">
+      <ion-icon name="location" style="height: 20px; width: 20px; margin-right: 5px; margin-top: 10px; color: orange;"></ion-icon>
+      <input
+        type="text"
+        class="form-control"
+        (keydown.enter)="$event.preventDefault()"
+        placeholder="Drop Off"
+        autocorrect="off"
+        autocapitalize="off"
+        spellcheck="off"
+        type="text"
+        #search1
+      />
+</div>
+      <hr>
+     <a href=""><div>
+      <span style="background-color: orange; margin-bottom: 50px;"><ion-icon  style="color: white; zoom:1.1;" name="star"></ion-icon></span>
+      <p style="margin-left: 25px; margin-top: -20px; font-size: 13pt;">Saved places</p>
+     </div></a>
+
+     <a href="">
+      <div>
+        <span style="background-color: lightblue; margin-bottom: 50px;"><ion-icon  style="color: white; zoom:1.1;" name="location"></ion-icon></span>
+        <p style="margin-left: 25px; margin-top: -20px; font-size: 13pt;">Set location on map</p>
+       </div>
+     </a>
+
+     <a href="">
+      <div>
+        <span style="background-color: pink; margin-bottom: 50px;"><ion-icon  style="color: white; zoom:1.1;" name="home"></ion-icon></span>
+        <p style="margin-left: 25px; margin-top: -20px; font-size: 13pt;">Add Home</p>
+       </div>
+     </a>
+
+       <hr>
+      <ion-button  style=" width: 100%; --background:orange;"  (click)="request()" >Done</ion-button>
+
+      <!-- margin-left: 0px; margin-top: 280px; -->
+
+    <!--
+
+          <ion-card>
+      <h3 style="font-size: 12pt">Distance: {{kiloMeter}}</h3>
+      <h3 style="font-size: 12pt">travel Time: {{duration}}</h3>
+    </ion-card>
+
+<ion-button style="margin-left: 100px;" (click)="request()">Send Request</ion-button>
+     <h5>Address: {{address}}</h5>
+  <div>Latitude: {{latitude}}</div>
+  <div>Longitude: {{longitude}}</div>
+  --></div>

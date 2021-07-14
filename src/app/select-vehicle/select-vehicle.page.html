@@ -1,0 +1,24 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>select-vehicle</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div id="container" *ngFor='let data of data'>
+
+    <agm-map  style="height: 300px"
+    [latitude]="latitude"
+    [longitude]="longitude"
+   >
+          <agm-marker [latitude]="data.latitude" [longitude]="data.longitude"></agm-marker>
+          <agm-marker [latitude]="data.lat1" [longitude]="data.long1"></agm-marker>
+
+          <agm-direction
+            [origin]="origin"
+            [destination]="destination"
+          ></agm-direction>
+
+  </agm-map>
+  </div>
+</ion-content>

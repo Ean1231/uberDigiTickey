@@ -1,0 +1,33 @@
+
+  public locate() {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        position => {
+          this.latitude = position.coords.latitude; // Works fine
+          this.longitude = position.coords.longitude;  // Works fine
+
+          let geocoder = new google.maps.Geocoder();
+          let latlng = new google.maps.LatLng(this.latitude, this.longitude);
+          let request = {
+            latLng: latlng
+          };
+
+          geocoder.geocode(request, (results, status) => {
+            if (status == google.maps.GeocoderStatus.OK ) {
+              if (results[0] != null) {
+                this.ngZone.run(()=>{
+                  this.address = results[0].formatted_address;
+                })
+                console.log(this.address);
+              } else {
+                alert("No address available");
+              }
+            }
+          });
+        },
+        error => {
+          console.log("Error code: " + error.code + "<br /> Error message: " + error.message);
+        }
+      );
+    }
+  }

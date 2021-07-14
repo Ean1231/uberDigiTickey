@@ -1,0 +1,33 @@
+<ion-app>
+  <ion-split-pane contentId="main-content">
+    <ion-menu contentId="main-content" type="overlay">
+      <ion-content>
+
+        <ion-list id="inbox-list">
+          <ion-list-header >Menu</ion-list-header>
+          <ion-note>DigiTicket.co.za</ion-note>
+<hr>
+          <ion-menu-toggle auto-hide="false" >
+            <ion-list id="labels-list">
+              <ion-icon name="map-outline"></ion-icon>Map
+             </ion-list>
+            <ion-list id="labels-list">
+              <ion-icon name="car-sport-outline"></ion-icon>Request Ride
+             </ion-list>
+            <ion-list id="labels-list">
+              <ion-icon name="flag-outline"></ion-icon>Set Destination
+            </ion-list>
+            <ion-list id="labels-list">
+              <ion-icon name="card-outline"></ion-icon>Payment method
+            </ion-list>
+          </ion-menu-toggle>
+        </ion-list>
+
+        <ion-list id="labels-list">
+         <ion-icon name="log-out-outline"></ion-icon> Logout
+        </ion-list>
+      </ion-content>
+    </ion-menu>
+    <ion-router-outlet id="main-content"></ion-router-outlet>
+  </ion-split-pane>
+</ion-app>

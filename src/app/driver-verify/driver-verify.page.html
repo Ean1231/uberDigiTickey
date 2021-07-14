@@ -1,0 +1,25 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>driver Verification</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+<h1 style="text-align: center; margin-top: 50px; color: orange;">Email Verify</h1>
+<p style="text-align: center;">Enter email to verify your account</p>
+<form style="margin-top: 50px;" [formGroup]="signupForm" (ngSubmit)="signup()">
+
+<ion-item>
+  <ion-label  position="floating" style="color: orange;">Email</ion-label>
+  <ion-input formControlName="email" type="email" matInput placeholder="Email"></ion-input>
+</ion-item>
+<br><br><br>
+<div *ngIf="firebaseErrorMessage != ''" class="error-style">
+  <span>{{ firebaseErrorMessage }}</span>
+</div>
+
+<button style="background:orange; width: 100%; color: white; border-radius: 5px; height: 40px;">Signup</button>
+
+</form>
+
+</ion-content>

@@ -1,0 +1,64 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Register</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="title">
+    <b>
+      <h1 style="margin-left: 150px; margin-top: 20px; color: orange;">Signup</h1>
+
+    </b>
+    <hr>
+  </div>
+
+  <ion-item>
+    <ion-label style="color: orange;" position="floating" color="primary">Name</ion-label>
+    <ion-input placeholder="Full Name" [(ngModel)]="name" class="primary-input"></ion-input>
+  </ion-item>
+
+  <ion-item>
+    <ion-label style="color: orange;" position="floating" color="primary">Surname</ion-label>
+    <ion-input placeholder="Surname" [(ngModel)]="surname" class="primary-input"></ion-input><br>
+  </ion-item>
+
+  <ion-item>
+    <ion-label style="color: orange;" position="floating" color="primary">Email</ion-label>
+    <ion-input placeholder="Email" [(ngModel)]="email" class="primary-input"></ion-input><br>
+  </ion-item>
+
+  <ion-item>
+    <ion-label style="color: orange;" position="floating" color="primary">Phone Number</ion-label>
+    <ion-input placeholder="phone number" [(ngModel)]="phoneNumber" class="primary-input"></ion-input>
+  </ion-item>
+
+  <ion-item>
+    <ion-label style="color: orange;" position="floating" color="primary">Password</ion-label>
+    <ion-input placeholder="Password"  [(ngModel)]="password" type="password" class="primary-input"></ion-input>
+  </ion-item>
+  <br>
+  <!--
+    <ion-label>Upload ID Doc</ion-label>
+    <ion-input type="file" class='form-control' style='width: 50%;' placeholder="Upload ID Copy"  name="link"   accept="image/png, image/jpeg"  (change)="getImage($event)">
+    </ion-input>
+  -->
+
+
+
+
+
+  <div class="ion-margin-top">
+    <ion-button style="--background: orange;" expand="block" (click)="SignUp(email, password, name, surname, phoneNumber)" >SIGN UP</ion-button>
+  </div>
+  <div class="ion-margin-top">
+    <ion-button style="--background: orange;" expand="block" [routerLink]="'/login'" >Back</ion-button>
+  </div>
+
+  <!--
+    <div class="ion-margin-top ion-text-center">
+    <a (click)="dismiss()">Close</a>
+  </div>
+  -->
+
+</ion-content>

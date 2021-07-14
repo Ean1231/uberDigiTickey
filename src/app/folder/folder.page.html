@@ -1,0 +1,34 @@
+
+
+<ion-content >
+  <div id="map" #map style="height:70%; border-bottom:1px solid gray;"></div>
+
+
+ <!--
+    <ion-button  (click)="setRoute()">Set route</ion-button>
+    <button [routerLink]="['/verification']">verification</button>
+ -->
+<br>
+ <div *ngIf="(user | async)">
+  <h3>Hi {{ (user | async)?.displayName }}</h3>
+  <!--<p>Email Verification Status: {{ (afAuth.user | async)?.emailVerified }}</p>-->
+
+
+ </div>
+
+ <hr>
+    <input
+    type="text"
+    class="form-control"
+    (keydown.enter)="$event.preventDefault()"
+    placeholder="Where to?"
+    autocorrect="off"
+    autocapitalize="off"
+    spellcheck="off"
+    type="text"
+    #search
+
+    (click)="openMyModal()"
+
+  />
+</ion-content>

@@ -1,0 +1,71 @@
+
+
+
+<ion-content class="ion-padding">
+  <h1 style="color: orange; text-align: center; margin-top: 30px;">Register</h1>
+
+  <form style="margin-top: 50px;" [formGroup]="signupForm" (ngSubmit)="signup()">
+
+
+<ion-item>
+  <ion-label  position="floating" style="color: orange;">Full Name</ion-label>
+  <ion-input autocomplete="off" formControlName="displayName" type="text"></ion-input>
+</ion-item>
+
+<ion-item>
+  <ion-label  position="floating" style="color: orange;">Email</ion-label>
+  <ion-input formControlName="email" type="email" matInput placeholder="Email"></ion-input>
+</ion-item>
+
+<ion-item>
+  <ion-label  position="floating" style="color: orange;">Password</ion-label>
+  <ion-input autocomplete="off" formControlName="password" type="password" matInput placeholder="Password"></ion-input>
+</ion-item>
+
+<ion-item>
+  <ion-label  position="floating" style="color: orange;">Phone Number</ion-label>
+  <ion-input autocomplete="off" formControlName="phoneNumber" type="text"></ion-input>
+</ion-item>
+
+
+
+    <div *ngIf="firebaseErrorMessage != ''" class="error-style">
+        <span>{{ firebaseErrorMessage }}</span>
+    </div>
+<br>
+    <button style="background:orange; width: 100%; color: white; border-radius: 5px; height: 40px;">Signup</button>
+</form><br>
+<div class="progressIndicator" [style.display]="isProgressVisible ? 'inline' : 'none' ">
+  <mat-progress-bar class=" example-margin" color="primary" mode="query"></mat-progress-bar>
+</div>
+<br>
+  <p class="go-to-login" style="color: orange;">Already have an account?
+     <a style="width: 100%; --background: orange;" [routerLink]="'/login'">Login</a>
+  </p>
+</ion-content>
+
+  <!--
+    <ion-content>
+
+<div class="title">
+    <h4>Signup</h4>
+    <p style="margin-left: 15px">Register with Kortez Taxi services to get started</p>
+  </div>
+
+  <ion-input placeholder="Full Name" [(ngModel)]="name" class="primary-input"></ion-input><br>
+  <ion-input placeholder="Surname" [(ngModel)]="surname" class="primary-input"></ion-input><br>
+  <ion-input placeholder="Email" [(ngModel)]="email" class="primary-input"></ion-input><br>
+  <ion-input placeholder="Password"  [(ngModel)]="password" type="password" class="primary-input"></ion-input>
+
+
+
+
+  <div class="ion-margin-top">
+    <ion-button expand="block" (click)="SignUp(email, password, name, surname)" >SIGN UP</ion-button>
+  </div>
+
+  <div class="ion-margin-top ion-text-center">
+    <a (click)="dismiss()">Close</a>
+  </div>
+</ion-content>
+  -->

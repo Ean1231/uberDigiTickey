@@ -1,0 +1,22 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>phoneOrMail</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content >
+  <div style="margin-top: 50px;" *ngIf="authService.confirmationResult">
+    <h1 style="color: orange; margin-left: 20px;" class="ion-no-margin ion-margin-vertical ">What`s the code?</h1>
+    <h4 style="margin-left: 20px;">Enter the code sent to {{phoneNumber}}</h4>
+      <div style="margin-top: 40px;">
+        <input type="text" [(ngModel)]="otp" name='otp' placeholder="Enter your otp" style="border: 1px solid silver; width: 90%; margin-left: 15px;border-radius: 10px;" >
+
+
+      </div>
+<div style="margin-top: 50px;">
+  <ion-button (click)="enterOtp(res)"  style="--background: orange; margin-left: 270px; ">Next</ion-button>
+</div>
+  </div>
+
+
+</ion-content>

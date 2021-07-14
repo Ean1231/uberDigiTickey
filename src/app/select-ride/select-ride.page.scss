@@ -1,0 +1,18 @@
+.selectCar{
+  justify-content: space-around;
+  display: flex;
+  margin-bottom: 30px;
+  gap: 10px;
+  text-align: center;
+
+}
+.container{
+  border: 1px solid white;
+  text-align: center;
+  margin-top: 10px;
+  height: 65px;
+  width: 65px;
+
+  border-radius: 50%;
+  display: inline-block;
+}

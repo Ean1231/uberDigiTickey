@@ -1,0 +1,7 @@
+{
+  "name": "micab",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
