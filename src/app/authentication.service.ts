@@ -27,7 +27,7 @@ export class AuthenticationService {
   userLoggedIn: boolean;
 
   coords = [];
-
+  items: Observable<any[]>
   constructor(private router: Router, public auth :AngularFireAuth, public firestore: AngularFirestore) {
     this.userLoggedIn = false;
 

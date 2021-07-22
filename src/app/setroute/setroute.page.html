@@ -105,8 +105,8 @@
      </a>
 
        <hr>
-      <ion-button  style=" width: 100%; --background:orange;"  (click)="request()" >Done</ion-button>
-
+      <ion-button  style=" width: 100%; --background:orange;"  (click)="request(); dismiss()" >Done</ion-button>
+     Message received: {{ message | async | json }}
       <!-- margin-left: 0px; margin-top: 280px; -->
 
     <!--

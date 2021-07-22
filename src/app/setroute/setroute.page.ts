@@ -6,6 +6,9 @@ import { AngularFirestore} from '@angular/fire/firestore';
 import { Plugins } from '@capacitor/core';
 import { AlertController } from '@ionic/angular';
 import { Router } from '@angular/router'
+
+import { MessagingService } from '../messaging-notification.service';
+
 const { Geolocation } = Plugins;
 
 
@@ -17,6 +20,10 @@ declare var google:any;
   styleUrls: ['./setroute.page.scss'],
 })
 export class SetroutePage implements OnInit {
+  title = 'push-notification';
+  message;
+
+
   @ViewChild('search') public searchElementRef: ElementRef;
   @ViewChild('search1') public search1ElementRef: ElementRef;
   @ViewChild("map", { static: false }) mapElement: ElementRef;
@@ -52,9 +59,22 @@ export class SetroutePage implements OnInit {
     public elref: ElementRef,
     public modalCtrl: ModalController,
     public alertController: AlertController,
-    public router: Router
+    public router: Router,
+    private messagingService: MessagingService
     )
      {}
+
+     ngOnInit() {
+      this.mapsAPILoader.load().then(() => {
+        this.locate() ;
+       // this.setCurrentLocation();
+        this.geoCoder = new google.maps.Geocoder;
+
+    });
+    this.messagingService.requestPermission()
+    this.messagingService.receiveMessage()
+    this.message = this.messagingService.currentMessage
+  }
 
 
 ionViewWillEnter(){}
@@ -103,7 +123,7 @@ ionViewWillEnter(){}
           console.log('place 1 lat: '+this.latitude1)
           console.log('place 1 lng: '+this.longitude1)
 
-this.updateUserLocation()
+//this.updateUserLocation()
   //  this.getDirection();
     this.test();
     this.loca = new google.maps.LatLng(
@@ -151,18 +171,17 @@ this.updateUserLocation()
 
    request() {
     // Instantiate a directions service.
-    (this.directionsService = new google.maps.DirectionsService()),
-      (this.directionsDisplay = new google.maps.DirectionsRenderer({
-        map: this.map,
-      }));
-    Geolocation.watchPosition({}, (position, err) => {
+    // (this.directionsService = new google.maps.DirectionsService()),
+    //   (this.directionsDisplay = new google.maps.DirectionsRenderer({
+    //     map: this.map,
+    //   }));
     // console.log(position.coords.latitude);
     // console.log(position.coords);
 
       let id = this.firestore.createId();
       this.firestore
         .collection('userConfirmsRequest')
-        .doc('id')
+        .doc("id")
         .set({                                // before (gets current position)
           // latitude: position.coords.latitude, //latitude: position.coords.latitude,  latitude: this.latitude
           // longitude: position.coords.longitude,//longitude: position.coords.longitude,  longitude: this.longitude
@@ -179,8 +198,8 @@ this.updateUserLocation()
           (
 
             this.searchElementRef = new google.maps.LatLng(
-            position.coords.latitude,
-            position.coords.longitude,
+              this.latitude,
+              this.longitude,
             (
 
               this.search1ElementRef = new google.maps.LatLng(
@@ -200,12 +219,14 @@ this.updateUserLocation()
         .catch((error) => {
           console.log(error);
         });
-
-    });
+this.updateUserLocation();
 //this. router. navigate ( [ '/terms' ])
  this.router.navigateByUrl('/terms')
 
 
+}
+async dismiss() {
+  await this.modalCtrl.dismiss();
 }
 
 
@@ -264,14 +285,7 @@ public markerOptions = {
 
 
 
-  ngOnInit() {
-    this.mapsAPILoader.load().then(() => {
-      this.locate() ;
-     // this.setCurrentLocation();
-      this.geoCoder = new google.maps.Geocoder;
 
-  });
-}
           //Plain Current location Method
 
   //  setCurrentLocation() {
@@ -352,7 +366,7 @@ async presentAlertConfirm() {
 // Address auto complete for pickup address
   getAddress(latitude, longitude) {
     this.geoCoder.geocode({ 'position': { lat: latitude, lng: longitude } }, (results, status) => {
-     
+
       if (status === 'OK') {
         if (results[0]) {
           this.zoom = 12;

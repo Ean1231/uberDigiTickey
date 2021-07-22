@@ -79,7 +79,11 @@ const routes: Routes = [
   {
     path: 'privacy',
     loadChildren: () => import('./privacy/privacy.module').then( m => m.PrivacyPageModule)
+  },  {
+    path: 'rating-system',
+    loadChildren: () => import('./rating-system/rating-system.module').then( m => m.RatingSystemPageModule)
   },
+
 
 
 

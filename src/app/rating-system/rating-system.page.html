@@ -1,0 +1,19 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>rating-system</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+<div style="margin-top: 50px;">
+  <h1><ngb-rating style="margin-left: 120px; color: orange; size: 20px;" [max]="5" [(rate)]="currentRate" [readonly]="false" [ngModel]="currentRate"></ngb-rating></h1>
+  <div *ngIf="(user | async)">
+
+  </div>
+  <h3 style="color:orange; margin-left: 20px;">Rating for driver {{ (user | async)?.displayName }} is: {{currentRate}}</h3>  <br><br>
+   <ion-button style="width: 90%; --background: orange; margin-left: 15px;" (click)="submitRating(currentRate)">Submit Rating</ion-button>
+</div>
+
+
+
+</ion-content>

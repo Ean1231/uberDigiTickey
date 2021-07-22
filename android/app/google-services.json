@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "242566932494",
+    "project_id": "uberapp-a261c",
+    "storage_bucket": "uberapp-a261c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:242566932494:android:207446a989abb4826d345f",
+        "android_client_info": {
+          "package_name": "io.ionic.starter1"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "242566932494-msn4976d3u53490oh4elo8gckaa0ltl8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCcxcHtU4rk1C-0UjbiZJZwUdCp84NqgNM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "242566932494-msn4976d3u53490oh4elo8gckaa0ltl8.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

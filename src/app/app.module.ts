@@ -60,7 +60,11 @@ import { MatTreeModule } from '@angular/material/tree';
 
 
 import { AuthGuard } from './auth.guard';
-
+import { AngularFireMessagingModule } from '@angular/fire/messaging';
+import { MessagingService } from '../app/messaging-notification.service';
+import { AsyncPipe } from '../../node_modules/@angular/common';
+import { AngularFireDatabaseModule } from '@angular/fire/database';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 const firebaseUiAuthConfig: firebaseui.auth.Config = {
   signInFlow: '',
   signInOptions: [
@@ -78,6 +82,7 @@ const firebaseUiAuthConfig: firebaseui.auth.Config = {
   entryComponents: [],
   imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule,AngularFireAuthModule,  FormsModule, ReactiveFormsModule,
     MatRadioModule,
+    NgbModule,
     MatRippleModule,
     MatSelectModule,
     MatSidenavModule,
@@ -117,12 +122,14 @@ const firebaseUiAuthConfig: firebaseui.auth.Config = {
     AngularFirestoreModule,
     AngularFireStorageModule,
     AgmDirectionModule,
+    AngularFireDatabaseModule,
     BrowserAnimationsModule,
     FirebaseUIModule.forRoot(firebaseUiAuthConfig),
     MatProgressBarModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    AngularFireMessagingModule
   ],
-  providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }, Geolocation, AuthGuard],
+  providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }, Geolocation, AuthGuard, MessagingService, AsyncPipe],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

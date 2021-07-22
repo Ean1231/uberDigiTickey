@@ -1,5 +1,5 @@
 import { Component, OnInit, NgZone, ElementRef, ViewChild } from '@angular/core';
-import { NavController } from '@ionic/angular';
+import { NavController, ToastController } from '@ionic/angular';
 import { AuthenticationService } from '../authentication.service';
 import { Plugins } from '@capacitor/core';
 import { MapsAPILoader } from '@agm/core';
@@ -7,6 +7,8 @@ import { ModalController } from '@ionic/angular';
 import { AlertController } from '@ionic/angular';
 import { AngularFirestore} from '@angular/fire/firestore';
 import { Router, ActivatedRoute } from '@angular/router'
+import { Observable } from 'rxjs';
+import { SetroutePage } from '../setroute/setroute.page';
 
 const { Geolocation } = Plugins;
 declare var google:any; //new addition
@@ -32,12 +34,19 @@ export class TermsPage implements OnInit {
   long1: number;
   zoom: any;
   dir: any;
-
+items:any;
   markers:any =[];
   infoWindows:any=[];
+id:any;
 
-
-  constructor(public service: AuthenticationService,private activatedRoute: ActivatedRoute, public router: Router) {
+  constructor(public service: AuthenticationService,
+    private activatedRoute: ActivatedRoute,
+    public router: Router,
+    private firestore: AngularFirestore,
+    public toastController: ToastController,
+    public alertController: AlertController,
+    )
+    {
     this.service.getCoords().then((items: any)=>{
         console.log(items);
         this.latitude = items[0].latitude; //pick up
@@ -64,14 +73,59 @@ export class TermsPage implements OnInit {
 
   ngOnInit() {
     // this.getDirection()
-    
-
   }
+
+  delete() {
+   // console.log(this.id);
+    this.firestore.collection("userConfirmsRequest").doc("id").delete().then(()=>{
+     this.presentToast("Request cancelled successfully")
+     this.router.navigateByUrl('/folder')
+    })
+
+}
+async presentToast(message) {
+  const toast = await this.toastController.create({
+    message: message,
+    duration: 2000
+  });
+  toast.present();
+}
+
+async presentToastWithOptions() {
+  const toast = await this.toastController.create({
+    header: 'Toast header',
+    message: 'Click to Close',
+    position: 'top',
+    buttons: [
+      {
+        side: 'start',
+        icon: 'star',
+        text: 'Favorite',
+        handler: () => {
+          console.log('Favorite clicked');
+        }
+      }, {
+        text: 'Done',
+        role: 'cancel',
+        handler: () => {
+          console.log('Cancel clicked');
+        }
+      }
+    ]
+  });
+  await toast.present();
+
+  const { role } = await toast.onDidDismiss();
+  console.log('onDidDismiss resolved with role', role);
+}
+
+
+
 
   ionViewDidEnter(){
 
   }
-  
+
   themap(){
 
     let coords = new google.maps.LatLng(this.latitude,this.longitude);
