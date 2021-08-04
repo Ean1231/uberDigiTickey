@@ -17,7 +17,7 @@ export class RegisterPage implements OnInit {
 
   signupForm: FormGroup;
   firebaseErrorMessage: string;
-
+image:any;
   validations_form: FormGroup;
   errorMessage: string = '';
   successMessage: string = '';
@@ -79,12 +79,31 @@ signup() {
           this.router.navigate(['/folder']);
       else if (result.isValid == false)
           this.firebaseErrorMessage = result.message;
-        
+
       this.isProgressVisible = false; // no matter what, when the auth service returns, we hide the progress indicator
   }).catch((err) => {
     console.log(err)
       this.isProgressVisible = false;
   });
+}
+
+getImage(event) {
+  let reader = new FileReader(); // HTML5 FileReader API
+  let file = event.target.files[0];
+  if (event.target.files && event.target.files[0]) {
+    reader.readAsDataURL(file);
+
+    // When file uploads set it to file formcontrol
+    reader.onload = () => {
+      this.image = reader.result;
+
+
+    };
+
+
+    // ChangeDetectorRef since file is loading outside the zone
+
+  }
 }
 
 

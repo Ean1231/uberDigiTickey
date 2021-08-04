@@ -4,4 +4,5 @@ export interface User {
   email: any;
   phoneNumber: number;
   password: any;
+  photoURL: any;
 }

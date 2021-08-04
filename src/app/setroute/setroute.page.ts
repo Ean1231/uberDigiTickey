@@ -8,6 +8,7 @@ import { AlertController } from '@ionic/angular';
 import { Router } from '@angular/router'
 
 import { MessagingService } from '../messaging-notification.service';
+import { NearbyDriversPage } from '../nearby-drivers/nearby-drivers.page';
 
 const { Geolocation } = Plugins;
 
@@ -60,7 +61,8 @@ export class SetroutePage implements OnInit {
     public modalCtrl: ModalController,
     public alertController: AlertController,
     public router: Router,
-    private messagingService: MessagingService
+    private messagingService: MessagingService,
+
     )
      {}
 
@@ -426,14 +428,16 @@ async presentAlertConfirm() {
   //popup Modal for car choosing (NOT DONE YET)
   async openMyModal() {
     const myModal = await this.modalController.create({
-      component: SelectRidePage,
-      cssClass: 'my-custom-modal-css',
+      component: NearbyDriversPage,
+      cssClass: 'nearby-drivers-modal',
       animated: true,
       mode: 'ios',
       backdropDismiss: false,
     });
     return await myModal.present();
   }
+
+
 }
 
 

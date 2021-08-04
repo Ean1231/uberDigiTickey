@@ -1,11 +1,11 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>rating-system</ion-title>
-  </ion-toolbar>
-</ion-header>
+
+    <ion-buttons slot="start">
+      <ion-menu-button  style="background-color: orange; border-radius: 25px; margin-top: 25px; margin-left: 20px; color: white; " ></ion-menu-button>
+    </ion-buttons>
+
 
 <ion-content>
-<div style="margin-top: 50px;">
+<div style="margin-top: 30px;">
   <h1><ngb-rating style="margin-left: 120px; color: orange; size: 20px;" [max]="5" [(rate)]="currentRate" [readonly]="false" [ngModel]="currentRate"></ngb-rating></h1>
   <div *ngIf="(user | async)">
 

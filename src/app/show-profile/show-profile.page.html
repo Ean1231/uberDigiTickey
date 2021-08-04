@@ -1,0 +1,16 @@
+<ion-buttons slot="start">
+  <ion-menu-button  style="background-color: orange; border-radius: 25px; margin-top: 25px; margin-left: 20px; color: white; " ></ion-menu-button>
+</ion-buttons>
+
+<ion-content>
+  <div style="margin-top: 60px; margin-left: 20px">
+    <h1 style="color: orange;">User profile</h1>
+    <hr style="width: 320px; color: orange;">
+<h2>Full-name:  {{ (user | async)?.displayName }}</h2> <br>
+
+
+<h2>Phone Number: {{ (user | async)?.PhoneNumber }}</h2> <br>
+<h2>Email: {{ (user | async)?.email }}</h2> <br>
+  </div>
+
+</ion-content>

@@ -1,0 +1,14 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>nearby-drivers</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+<ion-card *ngFor="let driver of NewDriver">
+  {{driver.lat}}
+  {{driver.long}}
+
+  <!-- {{ (driver | async)?.displayName }} -->
+</ion-card>
+</ion-content>

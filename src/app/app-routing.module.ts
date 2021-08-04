@@ -83,6 +83,18 @@ const routes: Routes = [
     path: 'rating-system',
     loadChildren: () => import('./rating-system/rating-system.module').then( m => m.RatingSystemPageModule)
   },
+  {
+    path: 'user-profile',
+    loadChildren: () => import('./user-profile/user-profile.module').then( m => m.UserProfilePageModule)
+  },
+  {
+    path: 'show-profile',
+    loadChildren: () => import('./show-profile/show-profile.module').then( m => m.ShowProfilePageModule)
+  },
+  {
+    path: 'nearby-drivers',
+    loadChildren: () => import('./nearby-drivers/nearby-drivers.module').then( m => m.NearbyDriversPageModule)
+  },
 
 
 

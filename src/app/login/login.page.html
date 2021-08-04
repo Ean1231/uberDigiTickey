@@ -1,6 +1,9 @@
 
 
 <ion-content class="ion-padding">
+   <div class="progressIndicator" [style.display]="isProgressVisible ? 'inline' : 'none' ">
+  <mat-progress-bar class=" example-margin" color="danger" mode="query"></mat-progress-bar>
+</div>
   <form style="margin-top: 50px;" class="form" [formGroup]="validations_form" (ngSubmit)="loginUser(validations_form.value)">
 <h1 style="color: orange; text-align: center;">SIGN IN</h1>
     <ion-item>
@@ -33,9 +36,7 @@
 
     <label class="error-message">{{ errorMessage }}</label>
   </form>
-  <div class="progressIndicator" [style.display]="isProgressVisible ? 'inline' : 'none' ">
-  <mat-progress-bar class=" example-margin" color="danger" mode="query"></mat-progress-bar>
-</div>
+
   <p class="go-to-register">
     No account yet?
      <a style="width:100%; color: orange;" (click)="goToStarsPage()">Create an account!</a>
@@ -46,6 +47,6 @@
   <p class="go-to-register">
     <a style="width: 100%; color: orange;"  [routerLink]="['/forgot-password']" >forgot password?</a>
  </p>
- 
+
 
 </ion-content>

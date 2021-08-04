@@ -25,7 +25,7 @@ export class AuthenticationService {
   confirmationResult: firebase.auth.ConfirmationResult;
   currentUser: any;
   userLoggedIn: boolean;
-
+  driverPosition = [];
   coords = [];
   items: Observable<any[]>
   constructor(private router: Router, public auth :AngularFireAuth, public firestore: AngularFirestore) {
@@ -132,18 +132,19 @@ export class AuthenticationService {
     });
 
   }
-  // getCoords(){
 
-  //   return new Promise((res, rej)=>{
-  //     this.firestore.collection('userConfirmsRequest').valueChanges().subscribe((items: any) => {
-  //       this.coords = items;
-  //       console.log(items);
-  //       res(this.coords) ;
-  //       });
+  getDrivers(){
 
-  //   });
+    return new Promise((res, rej)=>{
+      this.firestore.collection('driverPosition').valueChanges().subscribe((items: any) => {
+        this.driverPosition = items;
+        console.log(items);
+        res(this.driverPosition) ;
+        });
 
-  // }
+    });
+
+  }
 
 
 
@@ -240,7 +241,7 @@ export class AuthenticationService {
       email: user.email,
       displayName: user.displayName,
       photoURL: user.photoURL,
-      phoneNumber: user.phoneNumber
+      phoneNumber: user.phoneNumber,
     }
     return userRef.set(userData, {
       merge: true
@@ -250,6 +251,15 @@ export class AuthenticationService {
   getUsers(){
     return new Promise<any>((resolve, reject) => {
       this.firestore.collection('/Drivers').snapshotChanges()
+      .subscribe(snapshots => {
+        resolve(snapshots)
+      })
+    })
+  }
+
+  getdrivers(){
+    return new Promise<any>((resolve, reject) => {
+      this.firestore.collection('/regDrivers').snapshotChanges()
       .subscribe(snapshots => {
         resolve(snapshots)
       })
@@ -269,7 +279,9 @@ export class AuthenticationService {
                     displayName_lower: user.displayName.toLowerCase(),
                     email: user.email,
                     email_lower: emailLower,
-                    PhoneNumber: user.phoneNumber
+                    PhoneNumber: user.phoneNumber,
+                    photoURL: user.photoURL
+
                 });
 
                 result.user.sendEmailVerification();                    // immediately send the user a verification email

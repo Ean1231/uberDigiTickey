@@ -9,6 +9,7 @@ import { AuthenticationService } from '../authentication.service'
 import { Observable } from 'rxjs';
 import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/firestore';
 import { AngularFireAuth } from '@angular/fire/auth';
+import { MenuController } from '@ionic/angular';
 
 declare var google: any;
 
@@ -21,9 +22,11 @@ declare var google: any;
 export class FolderPage implements OnInit {
 
 
+
   user: Observable<any>;
   @ViewChild("map", { static: false }) mapElement: ElementRef;
-img: any;
+
+  img: any;
   userEmail: string;
   displayName: string;
   map: any;
@@ -32,6 +35,7 @@ img: any;
   marker:any;
   coords:any;
   items: Array<any>;
+
   constructor (private modalCtrl: ModalController,
     private activatedRoute: ActivatedRoute,
     public elref: ElementRef,
@@ -40,9 +44,11 @@ img: any;
     private navCtrl: NavController,
     public authService: AuthenticationService,
     public afAuth: AngularFireAuth,
-    private firestore: AngularFirestore) {
+    private firestore: AngularFirestore,
+    private menu: MenuController) {
       this.user = null;
    }
+
 
   ngOnInit(): void {
     this.afAuth.authState.subscribe(user => {
@@ -52,6 +58,7 @@ img: any;
           let emailLower = user.email.toLowerCase();
           this.user = this.firestore.collection('users').doc(emailLower).valueChanges();
       }
+      
   });
     // this.authService.getUsers()
     // .then(result => {
@@ -83,6 +90,8 @@ img: any;
    loadMap() {
 
 
+
+
 this.geolocation.getCurrentPosition().then(({coords})=>{
   const {latitude, longitude} = coords;
 
@@ -97,8 +106,11 @@ this.geolocation.getCurrentPosition().then(({coords})=>{
 
   let marker: google.maps.Marker = new google.maps.Marker({
     map: this.map,
-    position: location
+    position: location,
+    animation:google.maps.Animation.BOUNCE,
+
   })
+
 
 })
 

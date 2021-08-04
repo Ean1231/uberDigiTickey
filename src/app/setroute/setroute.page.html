@@ -1,3 +1,12 @@
+
+<!-- <ion-header>
+  <ion-toolbar color="light">
+    <ion-buttons slot="end">
+      <ion-back-button style="color: black;"></ion-back-button>
+    </ion-buttons>
+    <ion-title></ion-title>
+  </ion-toolbar>
+</ion-header> -->
 <!--<ion-header>
   <ion-toolbar color="primary">
     <ion-buttons slot="start">
@@ -27,6 +36,7 @@
   </div>
   </form>
  -->
+
 
   <div class="container" style="margin-top: 30px;">
   <!--<h1>Search destination</h1>-->
@@ -105,7 +115,7 @@
      </a>
 
        <hr>
-      <ion-button  style=" width: 100%; --background:orange;"  (click)="request(); dismiss()" >Done</ion-button>
+      <ion-button  style=" width: 100%; --background:orange;"  (click)="request(); dismiss(); openMyModal()" >Done</ion-button>
      Message received: {{ message | async | json }}
       <!-- margin-left: 0px; margin-top: 280px; -->
 
