@@ -1,0 +1,25 @@
+<ion-buttons style="position: absolute; margin-top:28px ;" slot="start" >
+  <ion-button [routerLink]="'/setroute'"  style="height: 40px; width: 40px; background-color: orange;  border-radius: 50px; margin-top: 25px; margin-left: 20px; color: white; " ><ion-icon name="arrow-back"></ion-icon></ion-button>
+</ion-buttons>
+
+<ion-content>
+  <div style="display: flex; margin-top: 150px; margin-left: 10px; margin-right: 10px;">
+     <input
+      type="text"
+      class="form-control"
+      (keydown.enter)="$event.preventDefault()"
+      placeholder="Add Your home address"
+      autocorrect="off"
+      autocapitalize="off"
+      spellcheck="off"
+      type="text"
+      #search
+      [(ngModel)] = "address"
+      style="border: 1px solid orange;"
+
+    /><br>
+</div>
+<br><br>
+  <ion-button style="margin-left: 15px; margin-right: 35px; width: 90%; --background:orange;"  (click)="rideHistory(search.value)">Save</ion-button>
+
+</ion-content>

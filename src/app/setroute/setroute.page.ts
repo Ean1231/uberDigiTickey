@@ -9,6 +9,7 @@ import { Router } from '@angular/router'
 
 import { MessagingService } from '../messaging-notification.service';
 import { NearbyDriversPage } from '../nearby-drivers/nearby-drivers.page';
+import { AngularFireAuth } from '@angular/fire/auth';
 
 const { Geolocation } = Plugins;
 
@@ -21,6 +22,8 @@ declare var google:any;
   styleUrls: ['./setroute.page.scss'],
 })
 export class SetroutePage implements OnInit {
+
+
   title = 'push-notification';
   message;
 
@@ -28,25 +31,30 @@ export class SetroutePage implements OnInit {
   @ViewChild('search') public searchElementRef: ElementRef;
   @ViewChild('search1') public search1ElementRef: ElementRef;
   @ViewChild("map", { static: false }) mapElement: ElementRef;
-
+place1: any;
   map:any;
   location:any;
   latitude: number;
   longitude: number;
   latitude1: number;
   longitude1: number;
+  lat1: number;
+  long1: number;
   kiloMeter:any;
   duration:any;
   zoom;
   address: string;
   lat: Number ;
   lng: Number ;
-
+user: any;
   dir = undefined;
   loca;
   destination;
-
+email;
+name;
+phoneNumber;
   private geoCoder;
+  homeAddress;
 
   directionsService = new google.maps.DirectionsService();
   directionsDisplay = new google.maps.DirectionsRenderer();
@@ -62,20 +70,70 @@ export class SetroutePage implements OnInit {
     public alertController: AlertController,
     public router: Router,
     private messagingService: MessagingService,
+    public afAuth: AngularFireAuth,
 
     )
-     {}
+     {
+      this.user = null;
+
+    // setTimeout(() => {
+    //   this.afAuth.authState.subscribe((user) => {
+    //     console.log('folder: user', user);
+
+    //     if (user) {
+    //       this.email = user.email;
+    //       this.firestore
+    //         .collection('users/')
+    //         .doc(this.email)
+    //         .valueChanges()
+    //         .subscribe((items: any) => {
+    //           console.log(items);
+    //           this.user = items;
+    //           this.name = this.user.displayName;
+    //           this.phoneNumber = this.user.PhoneNumber;
+    //           this.email = this.user.email;
+
+    //         });
+    //     }
+    //   });
+    // }, 5000);
+
+        setTimeout(() => {
+      this.afAuth.authState.subscribe((user) => {
+        console.log('folder: user', user);
+
+        if (user) {
+          this.email = user.email;
+          this.firestore
+            .collection('ride-history/')
+            .doc(this.email)
+            .valueChanges()
+            .subscribe((items: any) => {
+              console.log(items);
+              this.user = items;
+              this.homeAddress = this.user.homeAddress;
+
+
+            });
+            console.log(this.homeAddress)
+        }
+      });
+    }, 5000);
+     }
 
      ngOnInit() {
+
       this.mapsAPILoader.load().then(() => {
+        this.geo()
         this.locate() ;
+
        // this.setCurrentLocation();
         this.geoCoder = new google.maps.Geocoder;
 
     });
-    this.messagingService.requestPermission()
-    this.messagingService.receiveMessage()
-    this.message = this.messagingService.currentMessage
+    // this.messagingService.requestPermission()
+    // this.messagingService.receiveMessage()
+    // this.message = this.messagingService.currentMessage
   }
 
 
@@ -182,45 +240,25 @@ ionViewWillEnter(){}
 
       let id = this.firestore.createId();
       this.firestore
-        .collection('userConfirmsRequest')
-        .doc("id")
+        // .collection('userConfirmsRequest')
+        .doc('/userConfirmsRequest/' + this.email)
         .set({                                // before (gets current position)
           // latitude: position.coords.latitude, //latitude: position.coords.latitude,  latitude: this.latitude
           // longitude: position.coords.longitude,//longitude: position.coords.longitude,  longitude: this.longitude
           // lat1: this.latitude1,
           // long1: this.longitude1
-
+          
           latitude: this.latitude, //latitude: position.coords.latitude,  latitude: this.latitude
           longitude: this.longitude,//longitude: position.coords.longitude,  longitude: this.longitude
           lat1: this.latitude1,
           long1: this.longitude1
 
         })
-        .then(() => {
-          (
 
-            this.searchElementRef = new google.maps.LatLng(
-              this.latitude,
-              this.longitude,
-            (
-
-              this.search1ElementRef = new google.maps.LatLng(
-              this.latitude1,
-              this.longitude1,
-
-      ))),
-            this.calculateAndDisplayRoute(
-              this.directionsService,
-              this.directionsDisplay,
-              this.loca,  // this.searchElementRef,
-              this.destination
-            ));
-           this.test();
-           this.getDirection()
-        })
         .catch((error) => {
           console.log(error);
         });
+
 this.updateUserLocation();
 //this. router. navigate ( [ '/terms' ])
  this.router.navigateByUrl('/terms')
@@ -362,7 +400,27 @@ async presentAlertConfirm() {
       );
     }
   }
+geo(){
 
+  let geocoder = new google.maps.Geocoder();
+  let latlng = new google.maps.LatLng(this.latitude, this.longitude);
+  let request = {
+    latLng: latlng
+  };
+
+  geocoder.geocode(request, (results, status) => {
+    if (status == google.maps.GeocoderStatus.OK ) {
+      if (results[0] != null) {
+        this.ngZone.run(()=>{
+          this.place1 = results[0].formatted_address;
+        })
+        console.log(this.address);
+      } else {
+        alert("No address available");
+      }
+    }
+  });
+}
 
 
 // Address auto complete for pickup address
@@ -437,6 +495,39 @@ async presentAlertConfirm() {
     return await myModal.present();
   }
 
+  gotoHome(){
+    this.router.navigateByUrl('/ride-history')
+  }
+
+
+  async presentAlertPrompt() {
+    const alert = await this.alertController.create({
+      cssClass: 'my-custom-class',
+      header: 'Prompt!',
+
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          cssClass: 'secondary',
+          handler: () => {
+            this.router.navigateByUrl('/setroute')
+          }
+        }, {
+            text: 'Enter address?',
+            handler: () => {
+            this.router.navigateByUrl('/ride-history')
+          }
+        }
+      ]
+    });
+
+    await alert.present();
+  }
+
+  goBack(){
+    this.router.navigateByUrl('/folder')
+  }
 
 }
 

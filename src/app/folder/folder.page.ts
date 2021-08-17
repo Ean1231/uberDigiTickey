@@ -58,7 +58,7 @@ export class FolderPage implements OnInit {
           let emailLower = user.email.toLowerCase();
           this.user = this.firestore.collection('users').doc(emailLower).valueChanges();
       }
-      
+
   });
     // this.authService.getUsers()
     // .then(result => {
@@ -89,9 +89,6 @@ export class FolderPage implements OnInit {
 
    loadMap() {
 
-
-
-
 this.geolocation.getCurrentPosition().then(({coords})=>{
   const {latitude, longitude} = coords;
 
@@ -108,6 +105,7 @@ this.geolocation.getCurrentPosition().then(({coords})=>{
     map: this.map,
     position: location,
     animation:google.maps.Animation.BOUNCE,
+    disableDefaultUI: true
 
   })
 

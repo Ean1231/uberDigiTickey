@@ -1,14 +1,72 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>nearby-drivers</ion-title>
+    <ion-buttons (click)="dismiss()" [routerLink]="'/setroute'"  style="position: absolute; margin-top:28px ; margin-left: 250px;" slot="end" >
+      <ion-button style="height: 40px; width: 40px;   border-radius: 50px; margin-bottom: 20px; margin-left: 20px; color: orange; " ><ion-icon name="arrow-back"></ion-icon></ion-button>
+    </ion-buttons>
+    <ion-title>Select driver</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-<ion-card *ngFor="let driver of NewDriver">
-  {{driver.lat}}
-  {{driver.long}}
 
-  <!-- {{ (driver | async)?.displayName }} -->
-</ion-card>
+
+  <div *ngIf="isProgressVisible; else elseBlock"  style="margin-top: 30px;" class="progressIndicator" [style.display]="isProgressVisible ? 'inline' : 'none' ">
+    <mat-progress-bar class=" example-margin" color="danger" mode="query">searching </mat-progress-bar>
+    <p style="margin-left: 100px; margin-top: 50px; color: rgb(32, 25, 12);">searching for Driver</p>
+  </div>
+
+
+
+
+  <div #elseBlock class="container"  *ngFor="let driver of NewDriver"  style="margin-top: 20px;">
+    <div class="card cardContent" style="box-shadow: 0px 2px 6px 2px rgba(0,0,0,0.10); height: 100px;">
+      <div>
+        <img class="img1" src="../../assets/Screenshot 2021-06-21 at 09.31.58.png" style="height: 60px; width: 60%; " /><br>
+      <!-- <p style="margin-left: 18px; color: green;">Available</p>   -->
+      </div>
+
+      <div style="margin-left: 0px;">
+        <p class="card-title" style="margin-right: 2px; margin-top: 10px;"><strong>name: {{driver.name}}</strong></p>
+
+        <!-- <small style="color: rgb(240, 116, 116); font-size: 12pt"
+          >{{ data.description }}</small
+        > -->
+
+        <div style=" justify-content:space-between;">
+                  <div style="margin-left: 5px;" style="color: orange;"><h5><strong color="primary">Car color: {{driver.color}} </strong></h5></div>
+          <div style="margin-right: 5px; ">Car: {{driver.carModel}}</div>
+
+        </div>
+        <div style="display: flex; justify-content:space-between;">
+          <!-- <div style="margin-left: 5px;" style="color: #364f68;"><h4><strong>R {{ data.price}} rent</strong></h4></div> -->
+          <!-- <div (click)="share()" style="margin-left: 180px; margin-top: -22px; color: #364f68;"><ion-icon name="share-social-outline"></ion-icon></div> -->
+
+        </div>
+
+        <!-- <div style="display: flex; justify-content:space-between;">
+          <div style="margin-left: 5px;" style="color: #364f68;"><h5><strong>R {{ data.price}} rent</strong></h5></div>
+          <div style="margin-right: 5px; "><small>Dep: R{{data.price}}</small></div>
+
+        </div> -->
+
+      </div>
+
+    </div>
+    <div style="margin: 15px;"></div>
+
+  </div>
+  <!-- <div style="display: flex;">
+    <ion-button style="margin-top: 150px;"> <ion-icon name="calendar-outline"></ion-icon> schedule</ion-button>
+    <ion-button style="margin-top: 150px;"></ion-button>
+
+  </div> -->
+<!--
+  <ion-card *ngFor="let driver of NewDriver" >
+
+   <p> name:{{driver.name}}</p>  <br>
+   <p>Car:{{driver.carModel}}</p> <br>
+   <p>Car color:{{driver.color}}</p>
+  </ion-card> -->
+
+
 </ion-content>

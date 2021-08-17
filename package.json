@@ -36,6 +36,7 @@
     "@ng-bootstrap/ng-bootstrap": "^10.0.0",
     "agm-direction": "^0.8.9",
     "cordova-plugin-geolocation": "^4.1.0",
+    "cordova-sqlite-storage": "^6.0.0",
     "firebase": "^8.6.8",
     "firebaseui": "^4.8.0",
     "firebaseui-angular": "^5.1.2",

@@ -3,6 +3,8 @@ import { AuthenticationService } from '../authentication.service';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { Observable } from 'rxjs';
 import { AngularFirestore } from '@angular/fire/firestore';
+import { FormBuilder } from '@angular/forms';
+import { ModalController } from '@ionic/angular';
 
 @Component({
   selector: 'app-nearby-drivers',
@@ -13,24 +15,33 @@ export class NearbyDriversPage implements OnInit {
   driver: Observable<any>;
 driverPosition = [];
 index: any;
+isProgressVisible: boolean;
 
 latitude: any;
 longitude: any;
 NewDriver = [];
-  constructor(private firestore: AngularFirestore, public afAuth: AngularFireAuth, public service: AuthenticationService) { //-28.765656075931194, 24.764983497661156
+Drivers = []
+  constructor(private formBuilder: FormBuilder,
+    private firestore: AngularFirestore,
+    public afAuth: AngularFireAuth,
+    public service: AuthenticationService,
+    public modalCtrl: ModalController,) { //-28.765656075931194, 24.764983497661156
     //this.distance('-28.71565072823341', '24.734659626412974', "-28.765656075931194", "24.764983497661156")
 this.setCurrentLocation();
 this.driver = null;
+this.getDriverStatus();
 
 
   }
 
 
   ngOnInit() :void {
+    this.isProgressVisible = true;
     this.afAuth.authState.subscribe(driver => {
       console.log('folder: usern', driver);
 
       if (driver) {
+
           const emailLower = driver.email.toLowerCase();
           this.driver = this.firestore.collection('regDrivers').doc(emailLower).valueChanges();
       }
@@ -38,6 +49,7 @@ this.driver = null;
 
 
     this.service.getDrivers().then((items:any)=>{
+
       console.log(items);
       this.driverPosition = items;
     });
@@ -50,6 +62,7 @@ this.driver = null;
         this.driverPosition = items;
 
         setTimeout(() => {
+
   for (let index = 0; index <= this.driverPosition.length; index++) {
    // console.log( "im inside")
     this.distance(
@@ -61,15 +74,27 @@ this.driver = null;
       this.driverPosition[index].long
 
     ).then((distance: any) => {
+
       console.log(this.driverPosition[index].lat);
       console.log(this.driverPosition[index].long);
       if (distance <= 20) {
-        this.NewDriver.push(this.driverPosition[index]);
+        if(this.driverPosition[index].status){
+          this.NewDriver.push(this.driverPosition[index]);
+
+        }
+        this.isProgressVisible = false;
         console.log( "im inside")
-        console.log(this.NewDriver)
+
+
+
       }
+
     });
+
+
   }
+
+
  }, 3000);
      });
     }, 5000);
@@ -78,6 +103,10 @@ this.driver = null;
 
 
   }
+
+  async dismiss() {
+  await this.modalCtrl.dismiss();
+}
 
 
   distance(lon1, lat1, lon2, lat2) {
@@ -113,6 +142,26 @@ this.driver = null;
        // this.getAddress(this.latitude, this.longitude);
       });
     }
+  }
+
+
+  getDriverStatus() {
+    return new Promise((res, rej) => {
+      this.afAuth.authState.subscribe((driver) => {
+        console.log('folder: user', driver);
+        if (driver) {
+
+          this.firestore
+            .collection('driverStatus/')
+
+            .valueChanges()
+            .subscribe((items: any) => {
+              console.log(items)
+              res(items);
+            });
+        }
+      });
+    });
   }
 
 }

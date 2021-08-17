@@ -95,6 +95,10 @@ const routes: Routes = [
     path: 'nearby-drivers',
     loadChildren: () => import('./nearby-drivers/nearby-drivers.module').then( m => m.NearbyDriversPageModule)
   },
+  {
+    path: 'ride-history',
+    loadChildren: () => import('./ride-history/ride-history.module').then( m => m.RideHistoryPageModule)
+  },
 
 
 

@@ -65,6 +65,8 @@ import { MessagingService } from '../app/messaging-notification.service';
 import { AsyncPipe } from '../../node_modules/@angular/common';
 import { AngularFireDatabaseModule } from '@angular/fire/database';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+//import { Storage  } from '@ionic/storage';
+
 const firebaseUiAuthConfig: firebaseui.auth.Config = {
   signInFlow: '',
   signInOptions: [
@@ -81,6 +83,7 @@ const firebaseUiAuthConfig: firebaseui.auth.Config = {
   declarations: [AppComponent],
   entryComponents: [],
   imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule,AngularFireAuthModule,  FormsModule, ReactiveFormsModule,
+   // Storage,
     MatRadioModule,
     NgbModule,
     MatRippleModule,

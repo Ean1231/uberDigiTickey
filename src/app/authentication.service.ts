@@ -280,7 +280,7 @@ export class AuthenticationService {
                     email: user.email,
                     email_lower: emailLower,
                     PhoneNumber: user.phoneNumber,
-                    photoURL: user.photoURL
+                   // photoURL: user.photoURL
 
                 });
 

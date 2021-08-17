@@ -47,7 +47,9 @@ id:any;
     public alertController: AlertController,
     )
     {
-    this.service.getCoords().then((items: any)=>{
+
+      navigator.geolocation.watchPosition(async (position) => {
+      this.service.getCoords().then((items: any)=>{
         console.log(items);
         this.latitude = items[0].latitude; //pick up
         this.longitude = items[0].longitude; //pick up
@@ -67,8 +69,8 @@ id:any;
             window.alert('Directions request failed due to ' + status);
           }
         })
-
    });
+  });
    }
 
   ngOnInit() {
