@@ -38,7 +38,7 @@ items:any;
   markers:any =[];
   infoWindows:any=[];
 id:any;
-
+email;
   constructor(public service: AuthenticationService,
     private activatedRoute: ActivatedRoute,
     public router: Router,
@@ -48,6 +48,7 @@ id:any;
     )
     {
 
+      navigator.geolocation.watchPosition(async (items) => {
       this.service.getCoords().then((items: any)=>{
         console.log(items);
         this.latitude = items[0].latitude; //pick up
@@ -68,21 +69,31 @@ id:any;
             window.alert('Directions request failed due to ' + status);
           }
         })
+      })
    });
 
    }
+   updateUserLocation() {
+    navigator.geolocation.watchPosition(async (position) => {
+    this.latitude =  position.coords.latitude;
+     this.longitude =  position.coords.longitude;
+    // this.test();
+
+    })
+  }
 
   ngOnInit() {
     // this.getDirection()
   }
 
   delete() {
-   // console.log(this.id);
-    this.firestore.collection("userConfirmsRequest").doc("id").delete().then(()=>{
+    let id = this.firestore.createId();
+   console.log(this.id);
+    this.firestore.doc('/userConfirmsRequest/' + this.email).delete().then(()=>{
      this.presentToast("Request cancelled successfully")
      this.router.navigateByUrl('/folder')
     })
-
+//userConfirmsRequest
 }
 async presentToast(message) {
   const toast = await this.toastController.create({
