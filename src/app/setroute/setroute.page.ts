@@ -119,7 +119,31 @@ phoneNumber;
         }
       });
     }, 5000);
+
+    setTimeout(() => {
+      this.afAuth.authState.subscribe((users) => {
+        console.log('folder: user', users);
+
+        if (users) {
+          this.email = users.email;
+          this.firestore
+            .collection('users/')
+            .doc(this.email)
+            .valueChanges()
+            .subscribe((items: any) => {
+              console.log(items);
+              this.user = items;
+              this.name = this.user.displayName;
+              this.phoneNumber = this.user.PhoneNumber;
+              this.email = this.user.email;
+            });
+        }
+      });
+    }, 5000);
      }
+
+
+
 
      ngOnInit() {
 
@@ -247,7 +271,9 @@ ionViewWillEnter(){}
           // longitude: position.coords.longitude,//longitude: position.coords.longitude,  longitude: this.longitude
           // lat1: this.latitude1,
           // long1: this.longitude1
-          
+          name: this.name,
+          phoneNumber: this.phoneNumber,
+          email: this.email,
           latitude: this.latitude, //latitude: position.coords.latitude,  latitude: this.latitude
           longitude: this.longitude,//longitude: position.coords.longitude,  longitude: this.longitude
           lat1: this.latitude1,

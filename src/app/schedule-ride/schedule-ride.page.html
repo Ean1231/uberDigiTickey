@@ -1,0 +1,55 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons (click)="dismiss()" (click)="openModal()" style="position: absolute; margin-top:28px ; margin-left: 250px;" slot="end" >
+      <ion-button style="height: 40px; width: 40px;   border-radius: 50px; margin-bottom: 20px; margin-left: 20px; color: orange; " ><ion-icon name="arrow-back"></ion-icon></ion-button>
+    </ion-buttons>
+    <ion-title>schedule-ride</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div  class="container"   style="margin-top: 20px;">
+    <div class="card cardContent" style=" height: 100px;">
+      <div>
+        <img class="img1" src="../../assets/eans car.jfif" style="height: 60px; width: 60%; border: 1px solid orange;" /><br>
+      <!-- <p style="margin-left: 18px; color: green;">Available</p>   -->
+      </div>
+
+      <div style="margin-left: 0px;">
+        <p class="card-title" style="margin-right: 2px; margin-top: 10px;"><strong>name: {{showdata.name}}</strong></p>
+
+        <!-- <small style="color: rgb(240, 116, 116); font-size: 12pt"
+          >{{ data.description }}</small
+        > -->
+
+        <div style=" justify-content:space-between;">
+                  <div style="margin-left: 5px;" style="color: orange;"><h5><strong color="primary">Car color: {{showdata.color}} </strong></h5></div>
+          <div style="margin-right: 5px; ">Car: {{showdata.carModel}}</div>
+
+        </div>
+        <div style="display: flex; justify-content:space-between;">
+          <!-- <div style="margin-left: 5px;" style="color: #364f68;"><h4><strong>R {{ data.price}} rent</strong></h4></div> -->
+          <!-- <div (click)="share()" style="margin-left: 180px; margin-top: -22px; color: #364f68;"><ion-icon name="share-social-outline"></ion-icon></div> -->
+
+        </div>
+
+        <!-- <div style="display: flex; justify-content:space-between;">
+          <div style="margin-left: 5px;" style="color: #364f68;"><h5><strong>R {{ data.price}} rent</strong></h5></div>
+          <div style="margin-right: 5px; "><small>Dep: R{{data.price}}</small></div>
+
+        </div> -->
+
+      </div>
+
+    </div>
+    <div style="margin: 15px;"></div>
+    <div style="display: flex;">
+
+
+      <ion-button style="--background: transparent; color: orange; border: 1px solid black; width: 100%" (click)="openMyModal()">Continue</ion-button>
+
+
+    </div>
+    <ion-datetime>d</ion-datetime>
+  </div>
+</ion-content>

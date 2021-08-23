@@ -48,7 +48,6 @@ id:any;
     )
     {
 
-      navigator.geolocation.watchPosition(async (position) => {
       this.service.getCoords().then((items: any)=>{
         console.log(items);
         this.latitude = items[0].latitude; //pick up
@@ -70,7 +69,7 @@ id:any;
           }
         })
    });
-  });
+
    }
 
   ngOnInit() {

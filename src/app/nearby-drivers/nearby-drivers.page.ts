@@ -5,7 +5,9 @@ import { Observable } from 'rxjs';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { FormBuilder } from '@angular/forms';
 import { ModalController } from '@ionic/angular';
-
+import { ScheduleRidePage } from '../schedule-ride/schedule-ride.page';
+import { Router } from '@angular/router';
+import { state } from '@angular/animations';
 @Component({
   selector: 'app-nearby-drivers',
   templateUrl: './nearby-drivers.page.html',
@@ -16,7 +18,7 @@ export class NearbyDriversPage implements OnInit {
 driverPosition = [];
 index: any;
 isProgressVisible: boolean;
-
+data: any;
 latitude: any;
 longitude: any;
 NewDriver = [];
@@ -25,7 +27,9 @@ Drivers = []
     private firestore: AngularFirestore,
     public afAuth: AngularFireAuth,
     public service: AuthenticationService,
-    public modalCtrl: ModalController,) { //-28.765656075931194, 24.764983497661156
+    public modalCtrl: ModalController,
+    public router: Router
+    ) { //-28.765656075931194, 24.764983497661156
     //this.distance('-28.71565072823341', '24.734659626412974', "-28.765656075931194", "24.764983497661156")
 this.setCurrentLocation();
 this.driver = null;
@@ -36,6 +40,9 @@ this.getDriverStatus();
 
 
   ngOnInit() :void {
+
+
+
     this.isProgressVisible = true;
     this.afAuth.authState.subscribe(driver => {
       console.log('folder: usern', driver);
@@ -53,8 +60,6 @@ this.getDriverStatus();
       console.log(items);
       this.driverPosition = items;
     });
-
-
 
     setTimeout(() => {
       this.service.getDrivers().then((items:any)=>{
@@ -77,31 +82,22 @@ this.getDriverStatus();
 
       console.log(this.driverPosition[index].lat);
       console.log(this.driverPosition[index].long);
-      if (distance <= 20) {
+      if (distance <= 5000) {
         if(this.driverPosition[index].status){
           this.NewDriver.push(this.driverPosition[index]);
 
         }
         this.isProgressVisible = false;
         console.log( "im inside")
-
-
-
       }
-
     });
-
-
   }
-
-
  }, 3000);
      });
     }, 5000);
 
-
-
-
+    this.data = this.router.getCurrentNavigation().extras.state;
+    console.log(this.data)
   }
 
   async dismiss() {
@@ -126,14 +122,10 @@ this.getDriverStatus();
       console.log(d.toFixed(2));
       resolve(d);
     });
-
-
-
-
-
     }
 
-       setCurrentLocation() {
+
+    setCurrentLocation() {
     if ('geolocation' in navigator) {
       navigator.geolocation.getCurrentPosition((position) => {
         this.latitude = position.coords.latitude;
@@ -162,6 +154,31 @@ this.getDriverStatus();
         }
       });
     });
+  }
+
+
+  async openMyModal(data) {
+    console.log('kjg', data)
+
+    const myModal = await this.modalCtrl.create({
+      component: ScheduleRidePage,
+      cssClass: 'nearby-drivers-modal',
+      animated: true,
+      mode: 'ios',
+      backdropDismiss: false,
+
+    });
+    myModal.onDidDismiss().then((data) =>{
+      this.data = data.data.state
+    })
+
+    return await myModal.present();
+
+  }
+
+  details(data){
+    console.log(data)
+    this.router.navigateByUrl('/schedule-ride', {state:data});
   }
 
 }

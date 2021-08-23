@@ -99,6 +99,18 @@ const routes: Routes = [
     path: 'ride-history',
     loadChildren: () => import('./ride-history/ride-history.module').then( m => m.RideHistoryPageModule)
   },
+  {
+    path: 'schedule-ride',
+    loadChildren: () => import('./schedule-ride/schedule-ride.module').then( m => m.ScheduleRidePageModule)
+  },
+  {
+    path: 'payment-option',
+    loadChildren: () => import('./payment-option/payment-option.module').then( m => m.PaymentOptionPageModule)
+  },
+  {
+    path: 'checkout',
+    loadChildren: () => import('./checkout/checkout.module').then( m => m.CheckoutPageModule)
+  },
 
 
 

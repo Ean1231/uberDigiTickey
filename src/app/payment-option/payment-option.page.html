@@ -1,0 +1,15 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons (click)="dismiss()"   style="position: absolute; margin-top:28px ; margin-left: 250px;" slot="end" >
+      <ion-button style="height: 40px; width: 40px;   border-radius: 50px; margin-bottom: 20px; margin-left: 20px; color: orange; " ><ion-icon name="arrow-back"></ion-icon></ion-button>
+    </ion-buttons>
+    <ion-title>payment-option</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div style="margin-top: 30px;">
+    <ion-button style="--background: transparent; color: orange; border: 1px solid black; width: 90%; margin-left:20px;" ><ion-icon name="cash-outline" style="margin-right: 10px;"></ion-icon>pay cash</ion-button>
+    <ion-button style="--background: transparent; color: orange; border: 1px solid black; width: 90%;  margin-left:20px;"><ion-icon name="card-outline" style="margin-right: 10px;" [routerLink]="'/checkout'"></ion-icon>pay with card</ion-button>
+</div>
+</ion-content>
