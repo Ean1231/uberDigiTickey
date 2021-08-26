@@ -21,6 +21,8 @@ isProgressVisible: boolean;
 data: any;
 latitude: any;
 longitude: any;
+lat: any;
+long: any;
 NewDriver = [];
 Drivers = []
   constructor(private formBuilder: FormBuilder,
@@ -35,70 +37,64 @@ this.setCurrentLocation();
 this.driver = null;
 this.getDriverStatus();
 
+this.isProgressVisible = true;
+this.afAuth.authState.subscribe(driver => {
+  console.log('folder: usern', driver);
 
+  if (driver) {
+
+      const emailLower = driver.email.toLowerCase();
+      this.driver = this.firestore.collection('regDrivers').doc(emailLower).valueChanges();
   }
-
-
-  ngOnInit() :void {
+});
 
 
 
-    this.isProgressVisible = true;
-    this.afAuth.authState.subscribe(driver => {
-      console.log('folder: usern', driver);
-
-      if (driver) {
-
-          const emailLower = driver.email.toLowerCase();
-          this.driver = this.firestore.collection('regDrivers').doc(emailLower).valueChanges();
-      }
-    });
-
-
-    this.service.getDrivers().then((items:any)=>{
-
-      console.log(items);
-      this.driverPosition = items;
-    });
+setTimeout(() => {
+  this.service.getDrivers().then((items:any)=>{
+    console.log(items);
+    this.driverPosition = items;
 
     setTimeout(() => {
-      this.service.getDrivers().then((items:any)=>{
-        console.log(items);
-        this.driverPosition = items;
 
-        setTimeout(() => {
+for (let index = 0; index <= this.driverPosition.length; index++) {
+// console.log( "im inside")
+this.distance(
+  // '-28.71565072823341',
+  // '24.734659626412974',
+  this.latitude,
+  this.longitude,
+  this.driverPosition[index].lat,
+  this.driverPosition[index].long
 
-  for (let index = 0; index <= this.driverPosition.length; index++) {
-   // console.log( "im inside")
-    this.distance(
-      // '-28.71565072823341',
-      // '24.734659626412974',
-      this.latitude,
-      this.longitude,
-      this.driverPosition[index].lat,
-      this.driverPosition[index].long
+).then((distance: any) => {
 
-    ).then((distance: any) => {
+  console.log(this.driverPosition[index].lat);
+  console.log(this.driverPosition[index].long);
+  if (distance <= 5000) {
+    if(this.driverPosition[index].status){
+      this.NewDriver.push(this.driverPosition[index]);
 
-      console.log(this.driverPosition[index].lat);
-      console.log(this.driverPosition[index].long);
-      if (distance <= 5000) {
-        if(this.driverPosition[index].status){
-          this.NewDriver.push(this.driverPosition[index]);
-
-        }
-        this.isProgressVisible = false;
-        console.log( "im inside")
-      }
-    });
+    }
+    this.isProgressVisible = false;
+    console.log( "im inside")
   }
- }, 3000);
-     });
-    }, 5000);
+});
+}
+}, 3000);
+ });
+}, 5000);
 
-    this.data = this.router.getCurrentNavigation().extras.state;
-    console.log(this.data)
+
   }
+
+
+  ngOnInit() {
+    // this.data = this.router.getCurrentNavigation().extras.state;
+    // console.log(this.data)
+  }
+
+
 
   async dismiss() {
   await this.modalCtrl.dismiss();
@@ -158,27 +154,26 @@ this.getDriverStatus();
 
 
   async openMyModal(data) {
-    console.log('kjg', data)
-
     const myModal = await this.modalCtrl.create({
       component: ScheduleRidePage,
       cssClass: 'nearby-drivers-modal',
       animated: true,
       mode: 'ios',
       backdropDismiss: false,
+      componentProps: {
+        data: data
+      }
 
     });
-    myModal.onDidDismiss().then((data) =>{
-      this.data = data.data.state
-    })
+
 
     return await myModal.present();
 
   }
 
-  details(data){
-    console.log(data)
-    this.router.navigateByUrl('/schedule-ride', {state:data});
-  }
+  // details(data){
+  //   console.log(data)
+  //   this.router.navigateByUrl('/schedule-ride', {state:data});
+  // }
 
 }

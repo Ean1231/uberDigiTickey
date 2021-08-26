@@ -55,6 +55,7 @@ name;
 phoneNumber;
   private geoCoder;
   homeAddress;
+  price :any
 
   directionsService = new google.maps.DirectionsService();
   directionsDisplay = new google.maps.DirectionsRenderer();
@@ -76,27 +77,7 @@ phoneNumber;
      {
       this.user = null;
 
-    // setTimeout(() => {
-    //   this.afAuth.authState.subscribe((user) => {
-    //     console.log('folder: user', user);
 
-    //     if (user) {
-    //       this.email = user.email;
-    //       this.firestore
-    //         .collection('users/')
-    //         .doc(this.email)
-    //         .valueChanges()
-    //         .subscribe((items: any) => {
-    //           console.log(items);
-    //           this.user = items;
-    //           this.name = this.user.displayName;
-    //           this.phoneNumber = this.user.PhoneNumber;
-    //           this.email = this.user.email;
-
-    //         });
-    //     }
-    //   });
-    // }, 5000);
 
         setTimeout(() => {
       this.afAuth.authState.subscribe((user) => {
@@ -136,6 +117,7 @@ phoneNumber;
               this.name = this.user.displayName;
               this.phoneNumber = this.user.PhoneNumber;
               this.email = this.user.email;
+
             });
         }
       });
@@ -148,7 +130,6 @@ phoneNumber;
      ngOnInit() {
 
       this.mapsAPILoader.load().then(() => {
-        this.geo()
         this.locate() ;
 
        // this.setCurrentLocation();
@@ -254,23 +235,13 @@ ionViewWillEnter(){}
   //Storing coordinates to firebase and calling calculate method and watchposition
 
    request() {
-    // Instantiate a directions service.
-    // (this.directionsService = new google.maps.DirectionsService()),
-    //   (this.directionsDisplay = new google.maps.DirectionsRenderer({
-    //     map: this.map,
-    //   }));
-    // console.log(position.coords.latitude);
-    // console.log(position.coords);
+
 
       let id = this.firestore.createId();
       this.firestore
         // .collection('userConfirmsRequest')
         .doc('/userConfirmsRequest/' + this.email)
         .set({                                // before (gets current position)
-          // latitude: position.coords.latitude, //latitude: position.coords.latitude,  latitude: this.latitude
-          // longitude: position.coords.longitude,//longitude: position.coords.longitude,  longitude: this.longitude
-          // lat1: this.latitude1,
-          // long1: this.longitude1
           name: this.name,
           phoneNumber: this.phoneNumber,
           email: this.email,
@@ -287,13 +258,16 @@ ionViewWillEnter(){}
 
 this.updateUserLocation();
 //this. router. navigate ( [ '/terms' ])
+
  this.router.navigateByUrl('/terms')
 
 
 }
+
 async dismiss() {
   await this.modalCtrl.dismiss();
 }
+
 
 
     //Calculating Distance and Time
@@ -313,12 +287,14 @@ async dismiss() {
         destinations: [destination],
         travelMode: 'DRIVING',
       },
+
       ((response:any ,status:any)=>{
         if (status == 'OK') {
       var origins = response.originAddresses;
       var destinations = response.destinationAddresses;
       console.log(this.kiloMeter);
       console.log(this.duration);
+
       for (var i = 0; i < origins.length; i++) {
         var results = response.rows[i].elements;
         console.log(this.kiloMeter);
@@ -329,68 +305,16 @@ async dismiss() {
           this.duration = element.duration.text;
         }
       }}
-
       })
     );
+
+    this.price = parseFloat(this.kiloMeter) * 6 + 10;
+    console.log('Total Price : R ' + this.price)
    }
-                              //Marker Options
-   public renderOptions = {
-    suppressMarkers: true,
-}
-public markerOptions = {
-  origin: {
-   // icon: '/src/assets/36-369401_location-marker-icon-google-maps-pointer-elsavadorla-google.png',
-     // draggable: true,
-  },
-  destination: {
-     // icon: 'https://www.shareicon.net/data/32x32/2016/04/28/756626_face_512x512.png',
-     // label: 'MARKER LABEL',
-     // opacity: 0.8,
-  },
-}
 
 
 
 
-          //Plain Current location Method
-
-  //  setCurrentLocation() {
-  //   if ('geolocation' in navigator) {
-  //     navigator.geolocation.getCurrentPosition((position) => {
-  //       this.latitude = position.coords.latitude;
-  //       this.longitude = position.coords.longitude;
-  //       this.zoom = 8;
-  //       this.getAddress(this.latitude, this.longitude);
-  //     });
-  //   }
-  // }
-
-  //Alert to choose for auto displaying Pickup Address or to add own pickup Address
-async presentAlertConfirm() {
-  const alert = await this.alertController.create({
-    cssClass: 'my-custom-class',
-    header: 'Select Pickup address',
-   // message: 'Message <strong>text</strong>!!!',
-    buttons: [
-      {
-        text: '+ Add Address',
-        role: 'cancel',
-        cssClass: 'secondary',
-        handler: (blah) => {
-          console.log('Add Address');
-        }
-      }, {
-        text: 'Current Location',
-        handler: () => {
-          this.locate();
-          console.log('Current address');
-        }
-      }
-    ]
-  });
-
-  await alert.present();
-}
 
 
 //Current Location and reverse geocoding for displaying address in pickup textfield
@@ -426,27 +350,7 @@ async presentAlertConfirm() {
       );
     }
   }
-geo(){
 
-  let geocoder = new google.maps.Geocoder();
-  let latlng = new google.maps.LatLng(this.latitude, this.longitude);
-  let request = {
-    latLng: latlng
-  };
-
-  geocoder.geocode(request, (results, status) => {
-    if (status == google.maps.GeocoderStatus.OK ) {
-      if (results[0] != null) {
-        this.ngZone.run(()=>{
-          this.place1 = results[0].formatted_address;
-        })
-        console.log(this.address);
-      } else {
-        alert("No address available");
-      }
-    }
-  });
-}
 
 
 // Address auto complete for pickup address
@@ -509,7 +413,6 @@ geo(){
     );
   }
 
-  //popup Modal for car choosing (NOT DONE YET)
   async openMyModal() {
     const myModal = await this.modalController.create({
       component: NearbyDriversPage,
@@ -529,18 +432,18 @@ geo(){
   async presentAlertPrompt() {
     const alert = await this.alertController.create({
       cssClass: 'my-custom-class',
-      header: 'Prompt!',
+      header: 'Change home address?',
 
       buttons: [
         {
-          text: 'Cancel',
+          text: 'No',
           role: 'cancel',
           cssClass: 'secondary',
           handler: () => {
             this.router.navigateByUrl('/setroute')
           }
         }, {
-            text: 'Enter address?',
+            text: 'Yes',
             handler: () => {
             this.router.navigateByUrl('/ride-history')
           }

@@ -16,6 +16,8 @@ export class ScheduleRidePage implements OnInit {
   driver: any;
   showdata: any;
   email;
+
+  data ;
   constructor( private firestore: AngularFirestore,
     public afAuth: AngularFireAuth,
     public service: AuthenticationService,
@@ -23,17 +25,12 @@ export class ScheduleRidePage implements OnInit {
     public modalCtrl: ModalController,
     )
     {
-      this.service.getDrivers().then((items:any)=>{
-        console.log(items);
-        this.driver = items;
-      });
+
      }
 
   ngOnInit() {
+console.log(this.data)
 
-    this.showdata = this.router.getCurrentNavigation().extras.state;
-    console.log(this.showdata)
-    this.service.getDrivers();
 
   }
   async dismiss() {

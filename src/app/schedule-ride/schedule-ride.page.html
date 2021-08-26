@@ -16,15 +16,15 @@
       </div>
 
       <div style="margin-left: 0px;">
-        <p class="card-title" style="margin-right: 2px; margin-top: 10px;"><strong>name: {{showdata.name}}</strong></p>
+        <p class="card-title" style="margin-right: 2px; margin-top: 10px;"><strong>name: {{data.name}}</strong></p>
 
         <!-- <small style="color: rgb(240, 116, 116); font-size: 12pt"
           >{{ data.description }}</small
         > -->
 
         <div style=" justify-content:space-between;">
-                  <div style="margin-left: 5px;" style="color: orange;"><h5><strong color="primary">Car color: {{showdata.color}} </strong></h5></div>
-          <div style="margin-right: 5px; ">Car: {{showdata.carModel}}</div>
+                  <div style="margin-left: 5px;" style="color: orange;"><h5><strong color="primary">Car color: {{data.color}} </strong></h5></div>
+          <div style="margin-right: 5px; ">Car: {{data.carModel}}</div>
 
         </div>
         <div style="display: flex; justify-content:space-between;">
@@ -46,7 +46,7 @@
     <div style="display: flex;">
 
 
-      <ion-button style="--background: transparent; color: orange; border: 1px solid black; width: 100%" (click)="openMyModal()">Continue</ion-button>
+      <ion-button style="--background: transparent; color: orange; border: 1px solid black; width: 100%" (click)="openMyModal(); dismiss()">Continue</ion-button>
 
 
     </div>
