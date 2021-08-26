@@ -31,7 +31,33 @@ export class DriverRegisterPage implements OnInit {
   ngOnInit() {
   }
 
-z
+  SignUp(email, password, name, surname,phoneNumber){
+    let id = this.firestore.createId();
+    this.firestore.collection('Drivers').doc(id).set({
+    name: name,
+    surname: surname,
+    email: email,
+    password:password,
+    phoneNumber: phoneNumber
+    // IDimg: IDimg
+
+
+    }).then(()=>{
+    this.auth.SignUp(email, password, )
+    this.presentAlert('You have been registered...')
+    setTimeout(()=> this.showmessage = false, 3000);
+    this.name = '';
+    this.surname = '';
+    this.email = '';
+    this.Date = '';
+    this.phoneNumber = '';
+    // this.IDimg = '';
+
+    }).catch((error)=>{
+      this.presentAlert(error.message)
+
+    })
+  }
   async presentAlert(message) {
     const alert = await this.alertController.create({
       header: 'Attention User',
