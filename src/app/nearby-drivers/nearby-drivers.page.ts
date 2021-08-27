@@ -19,10 +19,10 @@ driverPosition = [];
 index: any;
 isProgressVisible: boolean;
 data: any;
-latitude: any;
-longitude: any;
-lat: any;
-long: any;
+latitude: number;
+longitude: number;
+lat: number;
+long: number;
 NewDriver = [];
 Drivers = []
   constructor(private formBuilder: FormBuilder,
@@ -74,7 +74,6 @@ this.distance(
   if (distance <= 5000) {
     if(this.driverPosition[index].status){
       this.NewDriver.push(this.driverPosition[index]);
-
     }
     this.isProgressVisible = false;
     console.log( "im inside")

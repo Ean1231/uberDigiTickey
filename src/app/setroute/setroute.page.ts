@@ -265,7 +265,7 @@ this.updateUserLocation();
 }
 
 async dismiss() {
-  await this.modalCtrl.dismiss();
+  await this.modalCtrl.dismiss(null, undefined, null);
 }
 
 
