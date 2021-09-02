@@ -65,10 +65,9 @@ import { MessagingService } from '../app/messaging-notification.service';
 import { AsyncPipe } from '../../node_modules/@angular/common';
 import { AngularFireDatabaseModule } from '@angular/fire/database';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-//import { Storage  } from '@ionic/storage';
 import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
 import { HttpClient, HttpHeaders, HttpClientModule } from '@angular/common/http';
-
+import { Storage } from '@ionic/storage'
 
 const firebaseUiAuthConfig: firebaseui.auth.Config = {
   signInFlow: '',
@@ -86,7 +85,7 @@ const firebaseUiAuthConfig: firebaseui.auth.Config = {
   declarations: [AppComponent],
   entryComponents: [],
   imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule,AngularFireAuthModule,  FormsModule, ReactiveFormsModule,
-   // Storage,
+
    HttpClientModule,
     MatRadioModule,
     NgbModule,
@@ -138,6 +137,7 @@ const firebaseUiAuthConfig: firebaseui.auth.Config = {
   ],
   providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
     Geolocation,
+    Storage,
      AuthGuard,
      MessagingService,
      AsyncPipe,

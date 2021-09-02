@@ -1,37 +1,16 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>driverNav</ion-title>
+    <ion-title>Cash Payment</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
 
+  <img src="../../assets/cash2.png" alt="" style="height: 150px; width: 150px ;margin-left: 95px; margin-top: 100px;">
+<h2 style="text-align: center;">Hello {{name}} your total payment for this trip is <br> R: {{totalPrice}}</h2>
+<div style="align-items: center; display: flex; margin-left: 65px; margin-top: 80px; gap: 3;">
+  <ion-button style=" --background: orange" [routerLink]="'/terms'">Confirm</ion-button>
+<ion-button style=" --background: orange" [routerLink]="'/folder'">cancel</ion-button>
+</div>
 
-  <div id="container" *ngFor='let data of data'>
-
-  <agm-map  style="height: 300px"
-  [latitude]="latitude"
-  [longitude]="longitude"
- >
-        <agm-marker [latitude]="data.latitude" [longitude]="data.longitude"></agm-marker>
-        <agm-marker [latitude]="data.lat1" [longitude]="data.long1"></agm-marker>
-
-        <agm-direction
-          [origin]="origin"
-          [destination]="destination"
-        ></agm-direction>
-
-</agm-map>
-
-<ion-button (click)="getDirection()">Accept</ion-button><br>
-
-  <ion-label>Pickup </ion-label><br>
-  <strong >{{ data.latitude }}</strong><br>
-  <strong >{{ data.longitude }}</strong>
-<br><br>
-  <ion-label>Drop of </ion-label><br>
-  <strong >{{ data.lat1 }}</strong><br>
-  <strong >{{ data.long1 }}</strong>
-
-  </div>
 </ion-content>

@@ -48,7 +48,7 @@ email;
     )
     {
 
-      navigator.geolocation.watchPosition(async (items) => {
+      // navigator.geolocation.watchPosition(async (items) => {
       this.service.getCoords().then((items: any)=>{
         console.log(items);
         this.latitude = items[0].latitude; //pick up
@@ -70,7 +70,7 @@ email;
           }
         })
       })
-   });
+  //  });
 
    }
    updateUserLocation() {

@@ -57,7 +57,7 @@ setTimeout(() => {
 
     setTimeout(() => {
 
-for (let index = 0; index <= this.driverPosition.length; index++) {
+for (let index = 0; index < this.driverPosition.length; index++) {
 // console.log( "im inside")
 this.distance(
   // '-28.71565072823341',
@@ -90,7 +90,7 @@ this.distance(
 
   ngOnInit() {
     // this.data = this.router.getCurrentNavigation().extras.state;
-    // console.log(this.data)
+    // console.log(this.data)z
   }
 
 
@@ -100,15 +100,15 @@ this.distance(
 }
 
 
-  distance(lon1, lat1, lon2, lat2) {
+  distance(latitude, longitude, lat, long) {
     return new Promise((resolve, reject) => {
       var R = 6371; // Radius of the earth in km
-      var dLat = ((lat2 - lat1) * Math.PI) / 180;
-      var dLon = ((lon2 - lon1) * Math.PI) / 180;
+      var dLat = ((lat - latitude) * Math.PI) / 180;
+      var dLon = ((long - longitude) * Math.PI) / 180;
       var a =
         Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-        Math.cos((lat1 * Math.PI) / 180) *
-          Math.cos((lat2 * Math.PI) / 180) *
+        Math.cos((latitude * Math.PI) / 180) *
+          Math.cos((lat * Math.PI) / 180) *
           Math.sin(dLon / 2) *
           Math.sin(dLon / 2);
       var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));

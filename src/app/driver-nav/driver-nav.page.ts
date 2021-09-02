@@ -1,6 +1,9 @@
 import { Component, OnInit, ViewChild,ElementRef } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { AuthenticationService } from '../authentication.service'
+import { AuthenticationService } from '../authentication.service';
+import { Storage } from '@ionic/storage';
+import { AngularFirestore } from '@angular/fire/firestore';
+import { AngularFireAuth } from '@angular/fire/auth';
 @Component({
   selector: 'app-driver-nav',
   templateUrl: './driver-nav.page.html',
@@ -19,14 +22,49 @@ export class DriverNavPage implements OnInit {
   long1: number;
   zoom: any;
   dir: any;
-  constructor(public service: AuthenticationService,private activatedRoute: ActivatedRoute, public router: Router) {
-    this.service.getCoords().then((items: any)=>{
-      // console.log(items);
-        this.data = items;
-   });
+  totalPrice;
+  name;
+  email;
+  phoneNumber;
+  user: any;
+  constructor(public service: AuthenticationService,
+    private activatedRoute: ActivatedRoute,
+    public router: Router,
+     public storage: Storage,
+     public firestore: AngularFirestore,
+     public afAuth: AngularFireAuth,
+
+     ) {
+
+      this.storage.create();
+      this.storage.get('FinalPrice').then(results=>{
+        this.totalPrice = results; //This will be the final price
+
+      });
    }
 
   ngOnInit() {
+
+
+    this.afAuth.authState.subscribe((users) => {
+      console.log('folder: user', users);
+      if (users) {
+        this.email = users.email;
+        this.firestore
+          .collection('users/')
+          .doc(this.email)
+          .valueChanges()
+          .subscribe((items: any) => {
+            console.log(items);
+            this.user = items;
+            this.name = this.user.displayName;
+            this.phoneNumber = this.user.PhoneNumber;
+            this.email = this.user.email;
+
+              });
+      }
+    });
+
   }
   getDirection() {
     this.origin = { lat: this.latitude, lng: this.longitude };

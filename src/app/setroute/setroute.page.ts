@@ -10,7 +10,7 @@ import { Router } from '@angular/router'
 import { MessagingService } from '../messaging-notification.service';
 import { NearbyDriversPage } from '../nearby-drivers/nearby-drivers.page';
 import { AngularFireAuth } from '@angular/fire/auth';
-
+import { Storage } from '@ionic/storage'
 const { Geolocation } = Plugins;
 
 
@@ -56,6 +56,7 @@ phoneNumber;
   private geoCoder;
   homeAddress;
   price :any
+  data: any
 
   directionsService = new google.maps.DirectionsService();
   directionsDisplay = new google.maps.DirectionsRenderer();
@@ -72,6 +73,7 @@ phoneNumber;
     public router: Router,
     private messagingService: MessagingService,
     public afAuth: AngularFireAuth,
+    public storage: Storage
 
     )
      {
@@ -249,9 +251,7 @@ ionViewWillEnter(){}
           longitude: this.longitude,//longitude: position.coords.longitude,  longitude: this.longitude
           lat1: this.latitude1,
           long1: this.longitude1
-
         })
-
         .catch((error) => {
           console.log(error);
         });
@@ -265,7 +265,7 @@ this.updateUserLocation();
 }
 
 async dismiss() {
-  await this.modalCtrl.dismiss(null, undefined, null);
+  await this.modalCtrl.dismiss();
 }
 
 
@@ -310,6 +310,12 @@ async dismiss() {
 
     this.price = parseFloat(this.kiloMeter) * 6 + 10;
     console.log('Total Price : R ' + this.price)
+
+    this.storage.create().then(()=>{
+      this.storage.set('FinalPrice',this.price).catch(e=>{
+        alert(e)
+      })
+    });
    }
 
 
@@ -420,6 +426,7 @@ async dismiss() {
       animated: true,
       mode: 'ios',
       backdropDismiss: false,
+
     });
     return await myModal.present();
   }

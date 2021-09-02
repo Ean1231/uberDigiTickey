@@ -5,7 +5,10 @@ import {Router, ActivatedRoute, NavigationExtras} from '@angular/router';
 import * as queryString from 'querystring';
 import { InAppBrowser } from '@ionic-native/in-app-browser/ngx'; //We use the InAppBrowser to open a webpage inside the app.
 import { CheckoutServiceService } from '../checkout-service.service';
-
+import { AngularFireAuth } from '@angular/fire/auth';
+import { AngularFirestore } from '@angular/fire/firestore';
+import { AlertController } from '@ionic/angular';
+import { Storage } from '@ionic/storage';
 @Component({
   selector: 'app-checkout',
   templateUrl: './checkout.page.html',
@@ -23,17 +26,61 @@ export class CheckoutPage implements OnInit {
 	customerSurname:any;
 
  result: Observable<any>;
-  constructor(public http: HttpClient, private iab: InAppBrowser,
-    public operationsProvider: CheckoutServiceService,) { }
+ email;
+ user: any;
+ name: any
+phoneNumber;
+displayName;
 
-  ngOnInit() {
+  constructor(public http: HttpClient,
+    private iab: InAppBrowser,
+    public operationsProvider: CheckoutServiceService,
+    public afAuth: AngularFireAuth,
+    public firestore: AngularFirestore,
+    public alertController: AlertController,
+    public router: Router,
+    public storage: Storage
+    )
+    {
+      this.user = null;
 
-this.customerName ="Hello";
-this.customerSurname="World";
-this.TransID = Math.floor(Math.random() * 90000) +''+555;
-this.totalPrice = 50; //This will be the final price
 
-this.credit(this.totalPrice);
+     }
+
+  ngOnInit() :void {
+    this.afAuth.authState.subscribe((users) => {
+      console.log('folder: user', users);
+      if (users) {
+        this.email = users.email;
+        this.firestore
+          .collection('users/')
+          .doc(this.email)
+          .valueChanges()
+          .subscribe((items: any) => {
+            console.log(items);
+            this.user = items;
+            this.name = this.user.displayName;
+            this.phoneNumber = this.user.PhoneNumber;
+            this.email = this.user.email;
+
+            this.customerName = this.name;
+            this.customerSurname = this.phoneNumber;
+            this.TransID = Math.floor(Math.random() * 90000) +''+555;
+            this.totalPrice = this.totalPrice; //This will be the final price
+
+            this.credit(this.totalPrice);
+            // console.log(this.customerName, "the name")
+
+            this.storage.create();
+            this.storage.get('FinalPrice').then(results=>{
+              this.totalPrice = results; //This will be the final price
+              this.credit(this.totalPrice);
+            });
+              });
+      }
+    });
+
+
   }
 
 
@@ -58,9 +105,10 @@ this.credit(this.totalPrice);
       'merchantTransactionId': this.TransID,
       'customer.givenName': ''+this.customerName,
       'customer.surname': ''+this.customerSurname
+
     });
 
-    // console.log(payment);
+     console.log(payment, "paymenttts");
 
     this.operationsProvider.createCheckout(payment).subscribe(async (dat: any) => {
 
@@ -92,6 +140,11 @@ this.credit(this.totalPrice);
               };
               console.log(JSON.stringify(paymentInfo)); //Let us display the result before going to next page.
 
+              if(paymentInfo.result.description == 'Transaction succeeded'){
+               this.presentAlertPrompt();
+              }else{
+                this.presentAlert();
+              }
               //this.router.navigate(['successpage'],navigationExtras);
 
             }, async error => {
@@ -114,6 +167,56 @@ this.credit(this.totalPrice);
 
     });
 
+  }
+
+  async presentAlertPrompt() {
+    const alert = await this.alertController.create({
+      cssClass: 'my-custom-class',
+      header: 'Your transaction is complete',
+
+      buttons: [
+        {
+          text: 'No',
+          role: 'cancel',
+          cssClass: 'secondary',
+          handler: () => {
+            this.router.navigateByUrl('/checkout')
+          }
+        }, {
+            text: 'Yes',
+            handler: () => {
+            this.router.navigateByUrl('/terms')
+          }
+        }
+      ]
+    });
+
+    await alert.present();
+  }
+
+  async presentAlert() {
+    const alert = await this.alertController.create({
+      cssClass: 'my-custom-class',
+      header: 'Your transaction is not complete. Retry?',
+
+      buttons: [
+        {
+          text: 'OK',
+          role: 'cancel',
+          cssClass: 'secondary',
+          handler: () => {
+            this.router.navigateByUrl('/checkout')
+          }
+        // }, {
+        //     text: 'Yes',
+        //     handler: () => {
+        //     this.router.navigateByUrl('/terms')
+        //   }
+         }
+      ]
+    });
+
+    await alert.present();
   }
 
 
